@@ -1,3 +1,4 @@
+module Users
 class SessionsController < Devise::SessionsController
 
 protected
@@ -12,4 +13,5 @@ protected
     end
   end
 
+end
 end
