@@ -2,19 +2,18 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <h1 class="text-center">PetTP Pets</h1>
-      <p class="text-center">Only pets that have been verified will show here.</p>
       <p class="text-center">To find a specific pet, please use the <%= link_to "home page", root_path %>.</p>
       <br/>
       <h4><%= will_paginate @pets, class: 'text-center' %></h4>
       <br>
       <ul class="list-unstyled">
         <% @pets.each do |pet| %>
-        <% if pet.verified == true %>
           <li>
             <div class="well row <%= cycle('white-bg', '') %>">
               <div class="col-sm-12 text-center">
                 <%= link_to controller: "users", action: "petshow", id: pet.id do %>
-                  <%= image_tag "http://pets.neopets.com/cpn/" + pet.name + "/1/6.png", class: 'user-index-avatar' %>
+                  <% img_class = pet.verified == true ? 'user-index-avatar' : 'user-index-avatar-red' %>
+                  <%= image_tag("http://pets.neopets.com/cpn/#{pet.name}/1/4.png", class: img_class) %>
                 <% end %>
                 <%= link_to controller: "users", action: "petshow", id: pet.id do %>
                   <h2 class="inline float-left"><%= pet.name %></h2>
@@ -44,7 +43,6 @@
               </div>
             </div>
           </li>
-          <% end %>
         <% end %>
       </ul>
       <h4><%= will_paginate @pets, class: 'text-center' %></h4>
