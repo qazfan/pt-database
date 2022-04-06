@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   before_action :banned?
   before_action :convo
 
+  def default_url_options(options={})
+    { secure: true, protocol: "https" }
+  end
+
   def banned?
     if current_user.present? && current_user.banned?
       sign_out current_user
