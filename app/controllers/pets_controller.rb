@@ -60,7 +60,6 @@ class PetsController < ApplicationController
     require 'net/http'
     require 'json'
 
-=begin
     url = "http://www.neopets.com/amfphp/json.php/CustomPetService.getViewerData/" + @pet.name
     uri = URI(url)
     response = Net::HTTP.get(uri)
@@ -87,43 +86,43 @@ class PetsController < ApplicationController
           @pet.color = color[0]
         end
       end
-=end
-
-      # so name is formatted correctly as it appears on site
-      #@pet.name = data["custom_pet"]["name"]
-
-      if @pet.hp == nil
-        @pet.hp = 0
-      end
-      if @pet.strength == nil
-        @pet.strength = 0
-      end
-      if @pet.defence == nil
-        @pet.defence = 0
-      end
-      if @pet.movement == nil
-        @pet.movement = 0
-      end
-
-      # set the hsd
-      if @pet.strength > 750 && @pet.defence > 750
-        @pet.hsd = @pet.hp + 750 + 750
-      elsif @pet.strength > 750
-        @pet.hsd = @pet.hp + 750 + @pet.defence
-      elsif @pet.defence > 750
-        @pet.hsd = @pet.hp + 750 + @pet.strength
-      else
-        @pet.hsd =  @pet.hp + @pet.defence + @pet.strength
-      end
-
-      if @pet.save
-        flash[:success] = "Pet submitted!"
-        redirect_to user_path( params[:user_id] )
-      else
-        flash[:danger] = @pet.errors.full_messages.join(", ")
-        render action: :new
-      end
     end
+  
+    # so name is formatted correctly as it appears on site
+    @pet.name = data["custom_pet"]["name"]
+
+    if @pet.hp == nil
+      @pet.hp = 0
+    end
+    if @pet.strength == nil
+      @pet.strength = 0
+    end
+    if @pet.defence == nil
+      @pet.defence = 0
+    end
+    if @pet.movement == nil
+      @pet.movement = 0
+    end
+
+    # set the hsd
+    if @pet.strength > 750 && @pet.defence > 750
+      @pet.hsd = @pet.hp + 750 + 750
+    elsif @pet.strength > 750
+      @pet.hsd = @pet.hp + 750 + @pet.defence
+    elsif @pet.defence > 750
+      @pet.hsd = @pet.hp + 750 + @pet.strength
+    else
+      @pet.hsd =  @pet.hp + @pet.defence + @pet.strength
+    end
+
+    if @pet.save
+      flash[:success] = "Pet submitted!"
+      redirect_to user_path( params[:user_id] )
+    else
+      flash[:danger] = @pet.errors.full_messages.join(", ")
+      render action: :new
+    end
+  end
 
   #GET to /users/:user_id/pet/edit
   def edit
@@ -215,7 +214,7 @@ class PetsController < ApplicationController
 =end
 
       # so name is formatted correctly as it appears on site
-      #@pet.name = data["custom_pet"]["name"]
+      @pet.name = data["custom_pet"]["name"]
 
       if @pet.update(pet_params)
         if @pet.hp == nil

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :convo
 
   def default_url_options(options={})
-    { secure: true, protocol: "https" }
+    { protocol: "https" }
   end
 
   def banned?
