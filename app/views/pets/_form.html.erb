@@ -8,46 +8,13 @@
     <%= f.select :gender, [['Male'], ['Female']], class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.label :level %>: Level and other stats are optional
-    <%= f.number_field :level, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :hp %>
-    <%= f.number_field :hp, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :strength %>
-    <%= f.number_field :strength, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :defence %>
-    <%= f.number_field :defence, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.label :movement %>
-    <%= f.number_field :movement, class: 'form-control' %>
-  </div>
-  <br>
-  <div class="form-group">
-     <%= f.check_box :rw %>
-    <%= f.label "Real Word?", class: "col-md-3 align" %>
-  </div>
-  <br>
-  <div class="form-group">
-    <%= f.check_box :rn %>
-    <%= f.label "Real Name?", class: "col-md-3 align" %>
-  </div>
-  <br>
-  <div class="form-group">
     <%= f.check_box :uft %>
     <%= f.label "Up For Trade?", class: "col-md-3 align" %>
   </div>
-  <br>
   <div class="form-group">
     <%= f.check_box :ufa %>
     <%= f.label "Up For Adoption?", class: "col-md-3 align" %>
   </div>
-  <br>
   <% if admin_signed_in? %>
   <div class="form-group">
     <%= f.check_box :verified %>
@@ -59,9 +26,54 @@
     <%= f.text_area :description, class: 'form-control' %>
   </div>
   <div class="field form-group">
-    <p><%= f.check_box :agreement %> I acknowledge that I have read the above
-    statements and said pet is indeed UFT/UFA.</p>
+    <p><%= f.check_box :agreement %> I confirm that this pet is UFT/UFA</p>
   </div>
+  <div style="background: #ccc;padding:15px;padding-top:5px;padding-bottom:0px;border-radius:5px;">
+    <h4>Optional</h4>
+    <table width="100%">
+      <tr>
+        <td width="20%">
+          <div class="form-group" style="margin:5px;margin-left:0px;">
+            <%= f.label :level %>
+            <%= f.number_field :level, class: 'form-control' %>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="form-group" style="margin:5px">
+            <%= f.label :hp %>
+            <%= f.number_field :hp, class: 'form-control' %>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="form-group" style="margin:5px">
+            <%= f.label :strength %>
+            <%= f.number_field :strength, class: 'form-control' %>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="form-group" style="margin:5px">
+            <%= f.label :defence %>
+            <%= f.number_field :defence, class: 'form-control' %>
+          </div>
+        </td>
+        <td width="20%">
+          <div class="form-group" style="margin:5px;margin-right:0px;">
+            <%= f.label :movement %>
+            <%= f.number_field :movement, class: 'form-control' %>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="form-group" style="display:inline-block;margin-right:5px;">
+      <%= f.check_box :rw %>
+      <%= f.label "Real Word?" %>
+    </div>
+    <div class="form-group" style="display:inline-block;">
+      <%= f.check_box :rn %>
+      <%= f.label "Real Name?" %>
+    </div>
+  </div>
+
   <br/>
   <div class="form-group">
     <%= f.submit "Update Pet", class: 'btn btn-primary', id: 'form-signup-btn' %>
