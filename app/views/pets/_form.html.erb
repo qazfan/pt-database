@@ -8,12 +8,8 @@
     <%= f.select :gender, [['Male'], ['Female']], class: 'form-control' %>
   </div>
   <div class="form-group">
-    <%= f.check_box :uft %>
-    <%= f.label "Up For Trade?", class: "col-md-3 align" %>
-  </div>
-  <div class="form-group">
-    <%= f.check_box :ufa %>
-    <%= f.label "Up For Adoption?", class: "col-md-3 align" %>
+    <label><%= f.check_box :uft %> Up For Trade?</label><br>
+    <label><%= f.check_box :ufa %> Up For Adoption?</label>
   </div>
   <% if admin_signed_in? %>
   <div class="form-group">
@@ -21,15 +17,15 @@
     <%= f.label :verified, class: 'col-md-3 align' %>
   </div>
   <% end %>
-  <div class="form-group">
-    <%= f.label :description %>: Seeking anything specific?  Anything special about the pet?
-    <%= f.text_area :description, class: 'form-control' %>
-  </div>
   <div class="field form-group">
-    <p><%= f.check_box :agreement %> I confirm that this pet is UFT/UFA</p>
+    <label><%= f.check_box :agreement %> I confirm that this pet is UFT/UFA</label>
   </div>
   <div style="background: #ccc;padding:15px;padding-top:5px;padding-bottom:0px;border-radius:5px;">
     <h4>Optional</h4>
+    <div class="form-group">
+      <%= f.label :description %>: Seeking anything specific?  Anything special about the pet?
+      <%= f.text_area :description, class: 'form-control' %>
+    </div>
     <table width="100%">
       <tr>
         <td width="20%">
@@ -65,12 +61,10 @@
       </tr>
     </table>
     <div class="form-group" style="display:inline-block;margin-right:5px;">
-      <%= f.check_box :rw %>
-      <%= f.label "Real Word?" %>
+      <label><%= f.check_box :rw %> Real Word?</label>
     </div>
     <div class="form-group" style="display:inline-block;">
-      <%= f.check_box :rn %>
-      <%= f.label "Real Name?" %>
+      <label><%= f.check_box :rn %> Real Name?</label>
     </div>
   </div>
 
