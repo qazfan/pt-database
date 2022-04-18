@@ -119,8 +119,9 @@ class PetsController < ApplicationController
   end
 
   def set_pet_data(pet, data)
+    pet.owner = data.dig("custom_pet", "owner")
     pet.uc = !!data.dig("custom_pet", "biology_by_zone", "46")
-    pet.verified = !!data.dig("object_info_registry", "28531")
+    pet.verified = !!data.dig("object_info_registry", 28531)
     pet.species = SPECIES_BY_ID[data["custom_pet"]["species_id"]]
     pet.color = COLORS_BY_ID[data["custom_pet"]["color_id"]]
     pet.hp ||= 0
