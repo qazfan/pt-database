@@ -1,4 +1,5 @@
 class Pet < ActiveRecord::Base
+  attr_accessor :data # Not defined until you `fetch_data`
   validates_presence_of :name, :species, :color
   validates :description, length: { maximum: 500,
     too_long: "%{count} characters is the maximum allowed for descriptions." }, 
@@ -9,6 +10,14 @@ class Pet < ActiveRecord::Base
     obscenity: true
   
   belongs_to :user
+
+  def fetch_data
+    return @data if defined? @data
+    url = "http://www.neopets.com/amfphp/json.php/CustomPetService.getViewerData/" + name
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    @data = JSON.parse(response)
+  end
   
   def self.namesearch(namesearch)
     where("name LIKE ?", "%#{namesearch}%") 

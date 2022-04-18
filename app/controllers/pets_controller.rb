@@ -53,7 +53,7 @@ class PetsController < ApplicationController
   # POST to /users/:user_id/pet
   def create
     @pet = current_user.pets.build( pet_params )
-    data = pet_data(@pet.name)
+    data = @pet.fetch_data
 
     if data["error"]
       flash[:danger] = "Pet not found. Is the name spelled correctly?"
@@ -83,7 +83,7 @@ class PetsController < ApplicationController
       id: params[:pet][:id],
       user_id: current_user.id
     )
-    data = pet_data(@pet.name)
+    data = pet.fetch_data
 
     if data["error"]
       flash[:danger] = "That pet does not exist!"
@@ -114,16 +114,8 @@ class PetsController < ApplicationController
   def pet_params
     params.require(:pet).permit(
       :name, :color, :species, :level, :hp, :strength, :defence, :movement,
-      :hsd, :uc, :rw, :rn, :verified, :description, :uft, :ufa, :gender,
-      :id, :agreement
+      :hsd, :uc, :rw, :rn, :verified, :description, :uft, :ufa, :id, :agreement
     )
-  end
-  
-  def pet_data(name)
-    url = "http://www.neopets.com/amfphp/json.php/CustomPetService.getViewerData/" + name
-    uri = URI(url)
-    response = Net::HTTP.get(uri)
-    JSON.parse(response)
   end
 
   def set_pet_data(pet, data)
