@@ -13,7 +13,7 @@ class Pet < ActiveRecord::Base
 
   def fetch_data
     return @data if defined? @data
-    url = "http://www.neopets.com/amfphp/json.php/CustomPetService.getViewerData/" + name
+    url = "https://www.neopets.com/amfphp/json.php/CustomPetService.getViewerData/" + name
     uri = URI(url)
     response = Net::HTTP.get(uri)
     @data = JSON.parse(response)
