@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  default_url_options :host => "www.pettp.com"
+  default_url_options :host => "www.usuls.com"
   root to: 'pages#home'
   devise_for :admins, controllers: { registrations: 'admins/registrations' }
   devise_for :users, controllers: { registrations: 'users/registrations' }
