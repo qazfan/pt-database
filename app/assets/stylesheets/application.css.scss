@@ -18,17 +18,20 @@
 @import 'bootstrap-sprockets';
 
 // Typography style for headers
-h1, h2, h3 {
-  font-family: 'Orbitron', sans-serif;
+body,
+h1,
+h2,
+h3 {
+  font-family: 'Roboto Mono', sans-serif;
 }
 
 h4 {
-  font-family: 'Exo', sans-serif;
+  font-family: 'Roboto Mono', sans-serif;
 }
 
 // Typography style for paragraphs
 p {
-  font-family: 'Exo', sans-serif;
+  font-family: 'Verdana', sans-serif;
 }
 
 // Nav styles
