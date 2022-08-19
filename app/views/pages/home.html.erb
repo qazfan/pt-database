@@ -7,7 +7,7 @@
     </div>
   </div>
   <br>
-  <h3>Pets listed: <%= @pets.count %></h3>
+  <h3>Pets listed: <%= link_to @pets.count, pets_path %></h3>
   <div class="row">
     <div class="well search-well">
       <h3>Search by Color and/or Species</h3>
