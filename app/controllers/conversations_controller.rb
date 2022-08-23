@@ -1,7 +1,7 @@
 class ConversationsController < ApplicationController
   #Credit to medium.com for the guide on how to implement conversations and messages
   def index
-    @users = User.includes(:profile)
+    @users = User
     # delete conversations if a user no longer exists
     Conversation.all.each do |conversation|
       if User.where(:id => conversation.sender_id).blank? || User.where(:id => conversation.recipient_id).blank?
@@ -12,8 +12,7 @@ class ConversationsController < ApplicationController
   end
   
   def create
-    if Conversation.between(params[:sender_id],params[:recipient_id])
-     .present?
+    if Conversation.between(params[:sender_id],params[:recipient_id]).present?
       @conversation = Conversation.between(params[:sender_id],
        params[:recipient_id]).first
     else

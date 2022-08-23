@@ -9,4 +9,14 @@ namespace :one_time do
       pet.save!
     end
   end
+
+  task copy_profiles_to_users: :environment do
+    Profile.all.each do |profile|
+      u = profile.user
+      next unless u
+      u.description ||= profile.description
+      u.neoname ||= profile.neoname
+      u.save!
+    end
+  end
 end

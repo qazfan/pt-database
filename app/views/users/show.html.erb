@@ -7,9 +7,9 @@
       <% else %>
       <div class="well text-center">
         <h1><%= @user.username %>'s Pets</h1>
-        <h5><%= sanitize @user.profile.description, tags: %w(), attributes: %w() %></h5>
-        <% unless @user.profile.neoname == "" || @user.profile.neoname == nil %>
-          <% name = sanitize @user.profile.neoname, tags: %w(), attributes: %w() %>
+        <h5><%= sanitize @user.description, tags: %w(), attributes: %w() %></h5>
+        <% unless @user.neoname == "" || @user.neoname == nil %>
+          <% name = sanitize @user.neoname, tags: %w(), attributes: %w() %>
           <% url = "http://www.neopets.com/userlookup.phtml?user=" + name %>
           <p>Neopets UN: <%= link_to name, url %></p>
         <% end %>
@@ -34,11 +34,11 @@
             </p>
           <% end %>
           <% if current_user.id == @user.id %>
-            <p><%= link_to "Edit Profile", edit_user_profile_path(user_id: current_user.id), class: 'btn btn-primary' %></p>
+            <p><%= link_to "Edit User", edit_user_path(user_id: current_user.id), class: 'btn btn-primary' %></p>
           <% end %>
         <% end %>
         <% if admin_signed_in? %>
-            <p><%= link_to "Edit Profile", edit_user_profile_path(user_id: @user.id), class: 'btn btn-primary' %>
+            <p><%= link_to "Edit User", edit_user_path(user_id: @user.id), class: 'btn btn-primary' %>
             <%= link_to "Edit User", edit_user_path(id: @user.id), class: 'btn btn-primary' %></p>
         <% end %>
       </div>

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
   def convo
     @unread = 0
-    @users = User.includes(:profile)
+    @users = User
     @conversations = Conversation.all.order("created_at DESC")
     if user_signed_in?
       @conversations.each do |conversation|
@@ -37,8 +37,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me, :terms, :age) }
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:username, :neoname, :description, :email, :password, :password_confirmation, :remember_me, :terms, :age) }
     devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:username, :email, :password, :remember_me) }
-    devise_parameter_sanitizer.permit(:account_update) {|u| u.permit(:username, :email, :password, :password_confirmation, :current_password)}
+    devise_parameter_sanitizer.permit(:account_update) {|u| u.permit(:username, :neoname, :description, :email, :password, :password_confirmation, :current_password)}
   end
 end

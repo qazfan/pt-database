@@ -1,3 +1,4 @@
+# TODO: Copy data to User and delete model
 class Profile < ActiveRecord::Base
   belongs_to :user
   validates :description, length: { maximum: 500,

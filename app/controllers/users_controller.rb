@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     if params[:unamesearch].present?
       @users = User.unamesearch(params[:unamesearch]).paginate(:page => params[:page]).order("id DESC")
     else
-      @users = User.includes(:profile).paginate(:page => params[:page]).order("id DESC")
+      @users = User.paginate(:page => params[:page]).order("id DESC")
     end
   end
 
@@ -171,10 +171,10 @@ class UsersController < ApplicationController
   def update
     #Retrieve user from database
     @user = User.find_by_id( params[:id] )
-    #Mass assign edited profile attributes and save (update)
+    #Mass assign edited attributes and save (update)
     if @user.update(user_params)
       flash[:success] = "User updated!"
-      #Redirect user to profile page
+      #Redirect user to page
       redirect_to user_path(id: params[:id] )
     else
       flash[:danger] = @user.errors.full_messages.join(", ")
