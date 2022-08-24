@@ -81,7 +81,7 @@ class PetsController < ApplicationController
   def update
     @pet = Pet.find_by(id: params[:pet][:id])
     data = @pet.fetch_data
-    return unless @pet.user_id == current_user.id || admin_signed_in?
+    return unless @pet.user_id == current_user.id || current_user&.admin?
 
     if data["error"]
       flash[:danger] = "That pet does not exist!"

@@ -1,5 +1,5 @@
-<% if user_signed_in? || admin_signed_in? %>
-  <% if admin_signed_in? || current_user.id == @pet.user.id %>
+<% if user_signed_in? || current_user&.admin? %>
+  <% if current_user&.admin? || current_user.id == @pet.user.id %>
     <div class="container">
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -7,7 +7,7 @@
           <p class="text-center">Use this if your pet happened to change colors, gained stats, etc.</p>
           <div class="well">
             <%= form_for @pet, url: user_pet_path, html: {id: 'pet_form'} do |f| %>
-              <% if admin_signed_in? %>
+              <% if current_user&.admin? %>
               <div class="form-group">
                 <%= f.label :name %>
                 <%= f.text_field :name, class: 'form-control' %>
@@ -34,7 +34,7 @@
                 <%= f.label :movement %>
                 <%= f.number_field :movement, class: 'form-control' %>
               </div>
-              <% if admin_signed_in? %>
+              <% if current_user&.admin? %>
               <br>
               <div class="form-group">
                  <%= f.check_box :rw %>
@@ -57,7 +57,7 @@
                 <%= f.label "Up For Adoption?", class: "col-md-3 align" %>
               </div>
               <br>
-              <% if admin_signed_in? %>
+              <% if current_user&.admin? %>
               <div class="form-group">
                 <%= f.check_box :verified %>
                 <%= f.label :verified, class: 'col-md-3 align' %>

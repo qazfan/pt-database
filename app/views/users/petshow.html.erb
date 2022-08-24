@@ -59,7 +59,7 @@
               <% end %>
               <p>HSD: <%= @pet.hsd %></p>
             <% end %>
-            <% if admin_signed_in? %>
+            <% if current_user&.admin? %>
               <p><%= link_to "Edit Pet", {controller: "pets", action: "edit", user_id: @pet.user.id, id: @pet.id }, class: 'btn btn-primary' %>
               <%= link_to "Delete Pet", {controller: :pets, action: :destroy, user_id: @pet.user.id, id: @pet.id }, data: {:confirm => 'Are you sure?'}, :method => :delete, class: 'btn btn-danger' %></p>
             <% else %>

@@ -3,6 +3,7 @@ class ConversationsController < ApplicationController
   def index
     @users = User
     # delete conversations if a user no longer exists
+    # TODO: Don't fetch all conversations unless the user is an admin
     Conversation.all.each do |conversation|
       if User.where(:id => conversation.sender_id).blank? || User.where(:id => conversation.recipient_id).blank?
         conversation.destroy

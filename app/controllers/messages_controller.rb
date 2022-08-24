@@ -7,12 +7,12 @@ class MessagesController < ApplicationController
     @messages = @conversation.messages
     
     if @messages.length > 5
-      @over_ten = true
+      @over_five = true
       @messages = @messages[-5..-1]
     end
     
     if params[:m]
-      @over_ten = false
+      @over_five = false
       @messages = @conversation.messages
     end
     
@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
     
     #if @messages.last
       
-      #if admin_signed_in? || @messages.last.user_id != current_user.id
+      #if current_user&.admin? || @messages.last.user_id != current_user.id
         #@messages.last.read = true;
       
       #end
