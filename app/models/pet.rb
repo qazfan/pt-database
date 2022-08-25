@@ -71,6 +71,17 @@ class Pet < ActiveRecord::Base
     length = namelengthsearch.to_i
     where("LENGTH(name) = ?", length)
   end
+
+  def description
+    "#{name} the " + [
+      uc ? "UC" : nil,
+      rw ? "RW" : nil,
+      rn ? "RN" : nil,
+      hsd >= 250 ? "BD" : nil,
+      color,
+      species
+    ].compact.join(' ')
+  end
   
   self.per_page = 20
   

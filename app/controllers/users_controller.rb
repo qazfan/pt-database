@@ -138,11 +138,11 @@ class UsersController < ApplicationController
   # GET to /users/:id
   def show
     @user = User.find( params[:id] )
-    @pets = Pet.includes(:user)
+    @pets = @user.pets
     if user_signed_in? && current_user.id == @user.id
       @user.pets.each do |pet|
         if pet.verified == false
-          flash.now[:danger] = "Looks like you have some unverified pets. If they have been "\
+          flash.now[:warning] = "Looks like you have some unverified pets. If they have been "\
             "unverified for a while, make sure they're wearing a "\
             "<a href='https://www.neopets.com/shops/wizard.phtml?string=Mossy+Rock'>"\
             "Mossy Rock</a>".html_safe

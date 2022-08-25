@@ -7,6 +7,7 @@
       <% else %>
       <div class="well text-center">
         <h1><%= @user.username %>'s Pets</h1>
+        <pre style="height:3.5em;overflow:auto;"><%= @pets.map(&:description).join("\n") %></pre>
         <h5><%= sanitize @user.description, tags: %w(), attributes: %w() %></h5>
         <% unless @user.neoname == "" || @user.neoname == nil %>
           <% name = sanitize @user.neoname, tags: %w(), attributes: %w() %>
