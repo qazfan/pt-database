@@ -13,7 +13,7 @@
             <div class="well row <%= cycle('white-bg', '') %>">
               <div class="col-sm-12 text-center">
                 <%= link_to controller: "users", action: "petshow", id: pet.id do %>
-                  <% img_class = pet.verified == true ? 'user-index-avatar' : 'user-index-avatar-red' %>
+                  <% img_class = pet.verified == true ? 'user-index-avatar-green' : 'user-index-avatar' %>
                   <%= image_tag("http://pets.neopets.com/cpn/#{pet.name}/1/4.png", class: img_class) %>
                 <% end %>
                 <%= link_to controller: "users", action: "petshow", id: pet.id do %>

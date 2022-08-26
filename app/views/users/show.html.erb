@@ -19,7 +19,7 @@
           <% if pet.user_id == @user.id %>
             <div class="inline-pets">
               <%= link_to controller: "users", action: "petshow", id: pet.id do %>
-                <% border_style = pet.verified? ? 'user-index-avatar' : 'user-index-avatar-red' %>
+                <% border_style = pet.verified? ? 'user-index-avatar-green' : 'user-index-avatar' %>
                 <%= image_tag "http://pets.neopets.com/cpn/" + pet.name + "/1/2.png", class: border_style %>
                 <br><%= pet.name %>
               <% end %>
