@@ -35,9 +35,9 @@
                   <% if pet.rn == true %>
                     <span class="label label-success">RN</span>
                   <% end %>
-                  <% if pet.hsd >= 250 %>
+                  <% if (pet.hsd || 0) >= 250 %>
                     <span class="label label-success">BD</span>
-                  <% elsif pet.hsd <= 249 && pet.hsd >= 100 %>
+                  <% elsif (pet.hsd || 0) <= 249 && pet.hsd >= 100 %>
                     <span class="label label-success">St. BD</span>
                   <% end %>
                 </div>

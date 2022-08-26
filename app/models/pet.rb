@@ -77,7 +77,7 @@ class Pet < ActiveRecord::Base
       uc ? "UC" : nil,
       rw ? "RW" : nil,
       rn ? "RN" : nil,
-      hsd >= 250 ? "BD" : nil,
+      (hsd || 0) >= 250 ? "BD" : nil,
       color,
       species
     ].compact.join(' ')

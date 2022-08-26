@@ -15,7 +15,7 @@ class PetsController < ApplicationController
     37 => 'Ogrin', 38 => 'Peophin', 39 => 'Poogle', 40 => 'Pteri', 41 => 'Quiggle',
     42 => 'Ruki', 43 => 'Scorchio', 44 => 'Shoyru', 45 => 'Skeith', 46 => 'Techo',
     47 => 'Tonu', 48 => 'Tuskaninny', 49 => 'Uni', 50 => 'Usul', 55 => 'Vandagyre',
-    51 => 'Wocky', 52 => 'Xweetok', 53 => 'Yurble', 54 => 'Zafara'
+    51 => 'Wocky', 52 => 'Xweetok', 53 => 'Yurble', 54 => 'Zafara', 55 => 'New Species'
   }
 
   COLORS_BY_ID = {
@@ -42,7 +42,8 @@ class PetsController < ApplicationController
     90 => 'Transparent', 80 => 'Tyrannian', 103 => 'Ummagine', 81 => 'UsukiBoy',
     82 => 'UsukiGirl', 94 => 'Water', 83 => 'White', 89 => 'Woodland', 95 => 'Wraith',
     84 => 'Yellow', 85 => 'Zombie', 105 => 'Candy', 106 => 'Marble',
-    107 => 'Steampunk', 108 => 'Toy', 109 => 'Origami'
+    107 => 'Steampunk', 108 => 'Toy', 109 => 'Origami', 110 => 'Oil Paint',
+    111 => "New Color"
   };
 
   # GET to /users/:user_id/pet/new
