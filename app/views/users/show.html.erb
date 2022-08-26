@@ -35,12 +35,11 @@
             </p>
           <% end %>
           <% if current_user.id == @user.id %>
-            <p><%= link_to "Edit User", edit_user_path(user_id: current_user.id), class: 'btn btn-primary' %></p>
+            <p><%= link_to "Edit User", edit_user_registration_path, class: 'btn btn-primary' %></p>
           <% end %>
         <% end %>
         <% if current_user&.admin? %>
-            <p><%= link_to "Edit User", edit_user_path(user_id: @user.id), class: 'btn btn-primary' %>
-            <%= link_to "Edit User", edit_user_path(id: @user.id), class: 'btn btn-primary' %></p>
+            <p><%= link_to "Edit User", edit_user_path(user_id: @user.id), class: 'btn btn-primary' %></p>
         <% end %>
       </div>
       <%= link_to "Back", :back %>
