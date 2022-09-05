@@ -3,14 +3,12 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users do
-    resource :profile
-    resource :pet
+    resource :profile # Is this still used?
   end
+  resources :pets
   resources :conversations do
     resources :messages
   end
-  get 'pets', to: 'users#petindex'
-  get 'pets/:id' , to: 'users#petshow'
   get 'verification', to: 'users#verification'
   get 'about', to: 'pages#about'
   resources :contacts, only: :create

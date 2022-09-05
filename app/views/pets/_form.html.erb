@@ -1,4 +1,4 @@
-<%= form_for @pet, url: user_pet_path, html: {id: 'pet_form'} do |f| %>
+<%= form_for @pet, html: {id: 'pet_form'} do |f| %>
   <div class="form-group">
     <%= f.label :name %>
     <%= f.text_field :name, class: 'form-control' %>

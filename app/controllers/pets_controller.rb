@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class PetsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show, :index]
 
   SPECIES_BY_ID = {
     1 => 'Acara', 2 => 'Aisha', 3 => 'Blumaroo', 4 => 'Bori', 5 => 'Bruce', 6 => 'Buzz',
@@ -46,12 +46,141 @@ class PetsController < ApplicationController
     111 => "New Color"
   };
 
-  # GET to /users/:user_id/pet/new
   def new
     @pet = Pet.new
   end
 
-  # POST to /users/:user_id/pet
+  # GET to /pets/:id
+  def show
+    @pet = Pet.find( params[:id] )
+  end
+
+  # This search function is super ugly, find a way to make it nicer
+  # GET to /pets
+  def index
+    @users = User.includes(:pet)
+
+    if params[:namesearch].present?
+      @pets = Pet.namesearch(params[:namesearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:colorsearch].present? && params[:speciessearch].present?
+      @pets = Pet.colorsearch(params[:colorsearch]).order("created_at DESC")
+      @pets = @pets.speciessearch(params[:speciessearch]).paginate(:page => params[:page]).order("id DESC")
+      if params[:ucsearch].present? && params[:uftsearch].present? && params[:ufasearch].present?
+        @pets = @pets.ucsearch(params[:colorsearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:ucsearch].present? && params[:uftsearch].present?
+        @pets = @pets.ucsearch(params[:colorsearch]).order("created_at DESC")
+        @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:ucsearch].present? && params[:ufasearch].present?
+        @pets = @pets.ucsearch(params[:colorsearch]).order("created_at DESC")
+        @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:ucsearch].present?
+        @pets = @pets.ucsearch(params[:colorsearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:uftsearch].present?
+        @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:ufasearch].present?
+        @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+      end
+
+    elsif params[:colorsearch].present? && params[:ucsearch].present?
+      @pets = Pet.colorsearch(params[:colorsearch]).order("id DESC")
+      @pets = @pets.ucsearch(params[:ucsearch]).paginate(:page => params[:page]).order("id DESC")
+      if params[:uftsearch].present? && params[:ufasearch].present?
+        @pets = (@pets).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:uftsearch].present?
+        @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:ufasearch].present?
+        @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+      end
+
+    elsif params[:colorsearch].present? && params[:uftsearch].present? && params[:ufasearch].present?
+      @pets = Pet.colorsearch(params[:colorsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:colorsearch].present? && params[:uftsearch].present?
+      @pets = Pet.colorsearch(params[:colorsearch]).order("id DESC")
+      @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:colorsearch].present? && params[:ufasearch].present?
+      @pets = Pet.colorsearch(params[:colorsearch]).order("id DESC")
+      @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:colorsearch].present?
+      @pets = Pet.colorsearch(params[:colorsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:speciessearch].present? && params[:ucsearch].present?
+      @pets = Pet.speciessearch(params[:speciessearch]).order("id DESC")
+      @pets = @pets.ucsearch(params[:ucsearch]).paginate(:page => params[:page]).order("id DESC")
+      if params[:uftsearch].present? && params[:ufasearch].present?
+        @pets = (@pets).paginate(:page => params[:page], :per_page => 20).order("id DESC")
+      elsif params[:uftsearch].present?
+        @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+      elsif params[:ufasearch].present?
+        @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+      end
+
+    elsif params[:speciessearch].present? && params[:uftsearch].present? && params[:ufasearch].present?
+      @pets = Pet.speciessearch(params[:speciessearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:speciessearch].present? && params[:uftsearch].present?
+      @pets = Pet.speciessearch(params[:speciessearch]).order("id DESC")
+      @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:speciessearch].present? && params[:ufasearch].present?
+      @pets = Pet.speciessearch(params[:speciessearch]).order("id DESC")
+      @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:speciessearch].present?
+      @pets = Pet.speciessearch(params[:speciessearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:ucsearch].present? && params[:uftsearch].present? && params[:ufasearch].present?
+      @pets = Pet.ucsearch(params[:ucsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:ucsearch].present? && params[:uftsearch].present?
+      @pets = Pet.ucsearch(params[:ucsearch]).order("id DESC")
+      @pets = @pets.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:ucsearch].present? && params[:ufasearch].present?
+      @pets = Pet.ucsearch(params[:ucsearch]).order("id DESC")
+      @pets = @pets.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:ucsearch].present?
+      @pets = Pet.ucsearch(params[:ucsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:uftsearch].present? && params[:ufasearch].present?
+      @pets = Pet.includes(:user).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:uftsearch].present?
+      @pets = Pet.uftsearch(params[:uftsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:ufasearch].present?
+      @pets = Pet.ufasearch(params[:ufasearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:rwsearch].present? && params[:rnsearch].present?
+      @pets = Pet.rnrwsearch(params[:rwsearch], params[:rnsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:rwsearch].present?
+      @pets = Pet.rwsearch(params[:rwsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:rnsearch].present?
+      @pets = Pet.rnsearch(params[:rnsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:minbdsearch].present? && params[:maxbdsearch].present?
+      @pets = Pet.rangebdsearch(params[:minbdsearch], params[:maxbdsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:minbdsearch].present?
+      @pets = Pet.minbdsearch(params[:minbdsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:maxbdsearch].present?
+      @pets = Pet.maxbdsearch(params[:maxbdsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    elsif params[:namelengthsearch].present?
+      @pets = Pet.namelengthsearch(params[:namelengthsearch]).paginate(:page => params[:page]).order("id DESC")
+
+    else
+      @pets = Pet.includes(:user).paginate(:page => params[:page]).order("id DESC")
+    end
+  end
+
   def create
     @pet = current_user.pets.build( pet_params )
     data = @pet.fetch_data
@@ -73,12 +202,10 @@ class PetsController < ApplicationController
     end
   end
 
-  #GET to /users/:user_id/pet/edit
   def edit
     @pet = Pet.find_by_id( params[:id] )
   end
 
-  #PUT to /users/:user_id/pet/
   def update
     @pet = Pet.find_by(id: params[:pet][:id])
     data = @pet.fetch_data
@@ -95,7 +222,7 @@ class PetsController < ApplicationController
     if @pet.update(pet_params)
       flash[:success] = "Pet updated"
       #Redirect user to pet profile page
-      redirect_to controller: "users", action: "petshow", id: @pet.id
+      redirect_to controller: "pets", action: "show", id: @pet.id
     else
       render action: :edit
       Rails.logger.info(@pet.errors.messages.inspect)
