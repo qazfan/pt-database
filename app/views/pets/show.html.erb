@@ -59,18 +59,19 @@
               <% end %>
               <p>HSD: <%= @pet.hsd %></p>
             <% end %>
-            <% if current_user&.admin? %>
-              <p><%= link_to "Edit Pet", {controller: "pets", action: "edit", user_id: @pet.user.id, id: @pet.id }, class: 'btn btn-primary' %>
-              <%= link_to "Delete Pet", {controller: :pets, action: :destroy, user_id: @pet.user.id, id: @pet.id }, data: {:confirm => 'Are you sure?'}, :method => :delete, class: 'btn btn-danger' %></p>
-            <% else %>
-              <% if user_signed_in? %>
-              <% if current_user.id == @pet.user.id %>
-                <p><%= link_to "Edit Pet", {controller: "pets", action: "edit", user_id: @pet.user.id, id: @pet.id }, class: 'btn btn-primary' %>
-                <%= link_to "Delete Pet", {controller: :pets, action: :destroy, user_id: @pet.user.id, id: @pet.id }, data: {:confirm => 'Are you sure?'}, :method => :delete, class: 'btn btn-danger' %></p>
-              <% else %>
-                <%= link_to "Report Pet", new_report_path, class: 'btn btn-danger' %>
+            <% if user_signed_in? %>
+              <% if current_user.id == @pet.user.id || current_user.admin? %>
+                <p>
+                  <%= link_to "Edit Pet", {controller: :pets, action: :edit, user_id: @pet.user.id, id: @pet.id }, class: 'btn btn-primary' %>
+                  <%= link_to "Delete Pet", {controller: :pets, action: :destroy, user_id: @pet.user.id, id: @pet.id }, data: {:confirm => 'Are you sure?'}, :method => :delete, class: 'btn btn-danger' %>
+                </p>
               <% end %>
-            <% end %>
+              <% if current_user.id != @pet.user.id %>
+                <p>
+                  <%= link_to "Report Pet", new_report_path, class: 'btn btn-danger' %>
+                  <%= link_to "Make an Offer", conversations_path(sender_id: current_user.id, recipient_id: @pet.user.id), method: "post", class: 'btn btn-primary' %>
+                </p>
+              <% end %>
             <% end %>
           </div>
           <%= link_to "Back", :back %>
