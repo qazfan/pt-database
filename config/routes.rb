@@ -15,4 +15,7 @@ Rails.application.routes.draw do
   get 'contact-us', to: 'contacts#new', as: 'new_contact'
   resources :reports
   get 'rules', to: 'pages#rules'
+
+  # An SVG masquerading as a PNG
+  get '/images/:petname.png', to: 'counter#index', format: :svg
 end
