@@ -53,4 +53,8 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_mailer.default_url_options = { :host => "www.usuls.com" }
+
+  # Fix subdomain routing for locahost/develoment
+  # https://github.com/rails/rails/issues/12438#issuecomment-25875656
+  config.action_dispatch.tld_length = 0
 end

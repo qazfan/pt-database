@@ -1,5 +1,12 @@
-class CounterController < ApplicationController
+class CountersController < ApplicationController
   def index
+    @top_counters = Counter.order(visits: :desc).limit(10)
+  end
+
+  def image
+    unless ['neopets.com', 'localhost'].include?(URI.parse(request.referer)&.host)
+      head :forbidden and return
+    end
     @petname = if valid_petname?(params[:petname])
       params[:petname]
     else
@@ -9,7 +16,7 @@ class CounterController < ApplicationController
     @counter = Counter.find_or_create_by(name: @petname)
     @counter.increment!
 
-    render('counter/index', formats: [:svg])
+    render('counters/image', formats: [:svg])
   end
 
   def valid_petname?(petname)

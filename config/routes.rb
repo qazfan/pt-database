@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   default_url_options :host => "www.usuls.com"
+  get '/' => 'counters#index', :constraints => { :subdomain => 'hits' }
   root to: 'pages#home'
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users do
@@ -17,5 +18,5 @@ Rails.application.routes.draw do
   get 'rules', to: 'pages#rules'
 
   # An SVG masquerading as a PNG
-  get '/images/:petname.png', to: 'counter#index', format: :svg
+  get '/images/:petname.png', to: 'counters#image', format: :svg
 end
