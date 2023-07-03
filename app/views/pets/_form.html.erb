@@ -1,71 +1,64 @@
 <%= form_for @pet, html: {id: 'pet_form'} do |f| %>
   <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <label><%= f.check_box :uft %> Up For Trade?</label><br>
-    <label><%= f.check_box :ufa %> Up For Adoption?</label>
-  </div>
-  <% if current_user&.admin? %>
-  <div class="form-group">
-    <%= f.check_box :verified %>
-    <%= f.label :verified, class: 'col-md-3 align' %>
-  </div>
-  <% end %>
-  <div class="field form-group">
-    <label><%= f.check_box :agreement %> I confirm that this pet is UFT/UFA</label>
-  </div>
-  <div style="background: #ccc;padding:15px;padding-top:5px;padding-bottom:0px;border-radius:5px;">
-    <h4>Optional</h4>
+    <%= f.text_field :name, class: 'form-control', placeholder: "Pet name", style: 'display:inline-block;width:auto' %>
+    <label style="margin-right:10px"><%= f.check_box :uft, {checked: true} %> UFT</label>
+    <label style="margin-right:10px"><%= f.check_box :ufa %> UFA</label>
+    <% if current_user&.admin? %>
     <div class="form-group">
-      <%= f.label :description %>: Seeking anything specific?  Anything special about the pet?
-      <%= f.text_area :description, class: 'form-control' %>
+      <%= f.check_box :verified %>
+      <%= f.label :verified%>
     </div>
-    <table width="100%">
-      <tr>
-        <td width="20%">
-          <div class="form-group" style="margin:5px;margin-left:0px;">
-            <%= f.label :level %>
-            <%= f.number_field :level, class: 'form-control' %>
-          </div>
-        </td>
-        <td width="20%">
-          <div class="form-group" style="margin:5px">
-            <%= f.label :hp %>
-            <%= f.number_field :hp, class: 'form-control' %>
-          </div>
-        </td>
-        <td width="20%">
-          <div class="form-group" style="margin:5px">
-            <%= f.label :strength %>
-            <%= f.number_field :strength, class: 'form-control' %>
-          </div>
-        </td>
-        <td width="20%">
-          <div class="form-group" style="margin:5px">
-            <%= f.label :defence %>
-            <%= f.number_field :defence, class: 'form-control' %>
-          </div>
-        </td>
-        <td width="20%">
-          <div class="form-group" style="margin:5px;margin-right:0px;">
-            <%= f.label :movement %>
-            <%= f.number_field :movement, class: 'form-control' %>
-          </div>
-        </td>
-      </tr>
-    </table>
-    <div class="form-group" style="display:inline-block;margin-right:5px;">
-      <label><%= f.check_box :rw %> Real Word?</label>
-    </div>
-    <div class="form-group" style="display:inline-block;">
-      <label><%= f.check_box :rn %> Real Name?</label>
-    </div>
+    <% end %>
+    <%= f.submit "List Pet", class: 'btn btn-primary', id: 'form-signup-btn' %>
   </div>
-
-  <br/>
-  <div class="form-group">
-    <%= f.submit "Update Pet", class: 'btn btn-primary', id: 'form-signup-btn' %>
-  </div>
+  <% if current_user.present? %>
+    <div class="optional" style="background: #fff;color:#999;padding:15px;padding-top:5px;padding-bottom:0px;border-radius:5px;">
+      <h4>Optional</h4>
+      <div class="form-group">
+        <%= f.text_area :description, class: 'form-control', placeholder: "Seeking anything specific? Anything special about the pet?" %>
+      </div>
+      <table width="100%">
+        <tr>
+          <td width="20%">
+            <div class="form-group" style="margin:5px;margin-left:0px;">
+              <%= f.label :level %>
+              <%= f.number_field :level, class: 'form-control' %>
+            </div>
+          </td>
+          <td width="20%">
+            <div class="form-group" style="margin:5px">
+              <%= f.label :hp %>
+              <%= f.number_field :hp, class: 'form-control' %>
+            </div>
+          </td>
+          <td width="20%">
+            <div class="form-group" style="margin:5px">
+              <%= f.label :strength %>
+              <%= f.number_field :strength, class: 'form-control' %>
+            </div>
+          </td>
+          <td width="20%">
+            <div class="form-group" style="margin:5px">
+              <%= f.label :defence %>
+              <%= f.number_field :defence, class: 'form-control' %>
+            </div>
+          </td>
+          <td width="20%">
+            <div class="form-group" style="margin:5px;margin-right:0px;">
+              <%= f.label :movement %>
+              <%= f.number_field :movement, class: 'form-control' %>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="form-group" style="display:inline-block;margin-right:5px;">
+        <label><%= f.check_box :rw %> Real Word?</label>
+      </div>
+      <div class="form-group" style="display:inline-block;">
+        <label><%= f.check_box :rn %> Real Name?</label>
+      </div>
+    </div>
+  <% else %>
+    Log in to list with additional details
+  <% end %>
 <% end %>

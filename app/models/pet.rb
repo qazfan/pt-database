@@ -4,19 +4,22 @@ class Pet < ActiveRecord::Base
   validates :description, length: { maximum: 500,
     too_long: "%{count} characters is the maximum allowed for descriptions." }, 
     obscenity: true
-  validates :agreement, acceptance: true
   validates :name, uniqueness: {message: "Opps, this pet is already in the database!"}, length: { maximum: 20,
     too_long: "%{count} characters is the maximum allowed for names." }, format: { with: /\A[a-zA-Z0-9\_]+\z/, message: "can only have numbers, letters and underscores." }, 
     obscenity: true
   
-  belongs_to :user
+  belongs_to :user, optional: true
 
   def fetch_data
     return @data if defined? @data
     url = "https://www.neopets.com/amfphp/json.php/CustomPetService.getViewerData/" + name
     uri = URI(url)
     response = Net::HTTP.get(uri)
-    @data = JSON.parse(response)
+    if response.blank?
+      { "error" => "Pet not found" }
+    else
+      @data = JSON.parse(response)
+    end
   end
   
   def self.namesearch(namesearch)
@@ -73,6 +76,7 @@ class Pet < ActiveRecord::Base
   end
 
   def description
+    return "" unless name.present?
     "#{name} the " + [
       uc ? "UC" : nil,
       rw ? "RW" : nil,

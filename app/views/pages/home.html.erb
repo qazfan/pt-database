@@ -6,8 +6,11 @@
       <%= image_tag("alienaisha.gif") %>
     </div>
   </div>
+  <h3>List a pet!</h3>
+  <div class="well">
+    <%= render 'pets/form' %>
+  </div>
   <h3>Find and list neopets UFT/UFA!</h3>
-  
   <br>
   <h3>Pets listed: <%= link_to @pets.count, pets_path %></h3>
   <div class="row">

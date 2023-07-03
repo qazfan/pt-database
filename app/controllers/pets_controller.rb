@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class PetsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [:create, :show, :index]
 
   SPECIES_BY_ID = {
     1 => 'Acara', 2 => 'Aisha', 3 => 'Blumaroo', 4 => 'Bori', 5 => 'Bruce', 6 => 'Buzz',
@@ -182,7 +182,12 @@ class PetsController < ApplicationController
   end
 
   def create
-    @pet = current_user.pets.build( pet_params )
+    @pet = if current_user.present?
+      current_user.pets.build( pet_params )
+    else
+      Pet.new( pet_params )
+    end
+
     data = @pet.fetch_data
 
     if data["error"]
@@ -195,7 +200,11 @@ class PetsController < ApplicationController
 
     if @pet.save
       flash[:success] = "Pet submitted!"
-      redirect_to user_path( current_user.id )
+      if current_user
+        redirect_to user_path( current_user.id )
+      else
+        redirect_to pets_path
+      end
     else
       flash[:danger] = @pet.errors.full_messages.join(", ")
       render action: :new
@@ -240,14 +249,15 @@ class PetsController < ApplicationController
   def pet_params
     params.require(:pet).permit(
       :name, :color, :species, :level, :hp, :strength, :defence, :movement,
-      :hsd, :uc, :rw, :rn, :verified, :description, :uft, :ufa, :id, :agreement
+      :hsd, :uc, :rw, :rn, :verified, :description, :uft, :ufa, :id
     )
   end
 
   def set_pet_data(pet, data)
+    pet.name = data.dig("custom_pet", "name")
     pet.owner = data.dig("custom_pet", "owner")
     pet.uc = !!data.dig("custom_pet", "biology_by_zone", "46")
-    pet.verified = !!data.dig("object_info_registry").to_h.dig("28531")
+    pet.verified = !!data.dig("object_info_registry").to_h.dig("28531") # Mossy Rock
     pet.species = SPECIES_BY_ID[data["custom_pet"]["species_id"]]
     pet.color = COLORS_BY_ID[data["custom_pet"]["color_id"]]
     pet.hp ||= 0
