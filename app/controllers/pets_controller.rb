@@ -43,7 +43,7 @@ class PetsController < ApplicationController
     82 => 'UsukiGirl', 94 => 'Water', 83 => 'White', 89 => 'Woodland', 95 => 'Wraith',
     84 => 'Yellow', 85 => 'Zombie', 105 => 'Candy', 106 => 'Marble',
     107 => 'Steampunk', 108 => 'Toy', 109 => 'Origami', 110 => 'Oil Paint',
-    111 => "New Color"
+    111 => 'New Color', 112 => 'New new color'
   };
 
   def new
@@ -182,6 +182,14 @@ class PetsController < ApplicationController
   end
 
   def create
+    unless current_user.present? || recaptcha_valid?(params[:recaptcha_token])
+      flash.now[:danger] = 'Recaptcha failed'
+      Rails.logger.warn "Failed recaptcha #{request.ip}"
+      @pet = Pet.new( pet_params )
+      @pets = []
+      return render 'pages/home'
+    end
+
     @pet = if current_user.present?
       current_user.pets.build( pet_params )
     else

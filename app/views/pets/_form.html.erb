@@ -9,6 +9,12 @@
       <%= f.label :verified%>
     </div>
     <% end %>
+    <% unless current_user.present? %>
+      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      <p><center>
+        <div class="g-recaptcha" data-sitekey="6LfHqugmAAAAANhXBloeqkJ7JulwpsE-frpvzI1y"></div>
+      </center></p>
+    <% end %>
     <%= f.submit "List Pet", class: 'btn btn-primary', id: 'form-signup-btn' %>
   </div>
   <% if current_user.present? %>
