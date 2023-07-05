@@ -22,14 +22,19 @@ class ApplicationController < ActionController::Base
   end
 
   def recaptcha_valid?(token)
-    return true if Rails.env.development?
+    # return true if Rails.env.development?
     secret_key = ENV["RECAPTCHA_SECRET_KEY"]
-    uri = URI.parse(
-      "https://www.google.com/recaptcha/api/siteverify?secret=#{secret_key}&response=#{token}"
+    puts "TOKEN #{token} KEY #{secret_key} IP #{request.ip}"
+    response = Net::HTTP.post_form(
+      URI.parse("https://www.google.com/recaptcha/api/siteverify"),
+      {
+        secret: secret_key,
+        response: token,
+        remoteip: request.ip
+      }
     )
-    response = Net::HTTP.get_response(uri)
-    json = JSON.parse(response.body)
-    json['success'] && json['score'] > RECAPTCHA_MINIMUM_SCORE && json['action'] == recaptcha_action
+    recaptcha_result = JSON.parse(response.body)
+    recaptcha_result['success']
   end
 
   def convo

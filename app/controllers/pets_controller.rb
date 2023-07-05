@@ -182,7 +182,7 @@ class PetsController < ApplicationController
   end
 
   def create
-    unless current_user.present? || recaptcha_valid?(params[:recaptcha_token])
+    unless current_user.present? || recaptcha_valid?(params['g-recaptcha-response'])
       flash.now[:danger] = 'Recaptcha failed'
       Rails.logger.warn "Failed recaptcha #{request.ip}"
       @pet = Pet.new( pet_params )
