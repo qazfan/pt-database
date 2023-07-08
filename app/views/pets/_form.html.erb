@@ -1,8 +1,10 @@
 <%= form_for @pet, html: {id: 'pet_form'} do |f| %>
-  <div class="form-group">
+  <div class="form-group" style="text-align: center">
     <%= f.text_field :name, class: 'form-control', placeholder: "Pet name", style: 'display:inline-block;width:auto' %>
-    <label style="margin-right:10px"><%= f.check_box :uft, {checked: true} %> UFT</label>
-    <label style="margin-right:10px"><%= f.check_box :ufa %> UFA</label>
+    <p style="margin-top:10px;font-family:inherit;">
+      <label style="margin-right:10px"><%= f.check_box :uft, {checked: true} %> UFT</label>
+      <label style="margin-right:10px"><%= f.check_box :ufa %> UFA</label>
+    </p>
     <% if current_user&.admin? %>
     <div class="form-group">
       <%= f.check_box :verified %>
@@ -11,9 +13,9 @@
     <% end %>
     <% unless current_user.present? %>
       <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-      <p><center>
-        <div class="g-recaptcha" data-sitekey="6LfHqugmAAAAANhXBloeqkJ7JulwpsE-frpvzI1y"></div>
-      </center></p>
+      <p>
+        <div class="g-recaptcha" data-sitekey="6LfHqugmAAAAANhXBloeqkJ7JulwpsE-frpvzI1y" style="display:inline-block"></div>
+      </p>
     <% end %>
     <%= f.submit "List Pet", class: 'btn btn-primary', id: 'form-signup-btn' %>
   </div>
@@ -65,7 +67,9 @@
       </div>
     </div>
   <% else %>
-    Log in to list with additional details<br/>
-    Pets that change accounts are automatically removed every 24h
+    <p style="text-align:center;">
+      Log in to list with additional details<br/>
+      Pets that change accounts are automatically removed daily
+    </p>
   <% end %>
 <% end %>

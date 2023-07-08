@@ -2,8 +2,6 @@ require 'net/http'
 require 'json'
 
 class PetsController < ApplicationController
-  before_action :authenticate_user!, except: [:create, :show, :index]
-
   SPECIES_BY_ID = {
     1 => 'Acara', 2 => 'Aisha', 3 => 'Blumaroo', 4 => 'Bori', 5 => 'Bruce', 6 => 'Buzz',
     7 => 'Chia', 8 => 'Chomby', 9 => 'Cybunny', 10 => 'Draik', 11 => 'Elephante',
@@ -247,9 +245,22 @@ class PetsController < ApplicationController
   end
 
   def destroy
-    Pet.find_by(id: params[:id], user_id: current_user.id).destroy
-    flash[:success] = "Pet deleted"
-    redirect_to user_path(current_user.id)
+    @pet = Pet.find_by(id: params[:id])
+    if current_user.present? && @pet.user_id == current_user.id
+      @pet.destroy
+      flash[:success] = "Pet deleted"
+      redirect_to user_path(current_user.id)
+    else
+      data = @pet.fetch_data
+      if data.dig("object_info_registry").to_h.dig("39320") # Aquatic Arrangement
+        @pet.destroy
+        flash[:success] = "Pet deleted"
+        redirect_to new_pet_path and return
+      else
+        flash[:danger] = "Add an Aquatic Arrangement wearable to unlist this pet"
+        render action: :show and return
+      end
+    end
   end
 
   private

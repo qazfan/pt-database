@@ -75,6 +75,12 @@
                 <%= link_to "Make an Offer", conversations_path(sender_id: current_user.id, recipient_id: @pet.user.id), method: "post", class: 'btn btn-primary' %>
               </p>
             <% end %>
+          <% else %>
+            To remove an anonymously listed pet, move it to another account and check
+            back after a day, or put on
+            <a href="https://www.neopets.com/shops/wizard.phtml?string=Aquatic+Arrangement">this wearable</a>
+            and click
+            <%= link_to "here", {controller: :pets, action: :destroy, id: @pet.id }, data: {}, :method => :delete %>
           <% end %>
         </div>
         <%= link_to "Back", :back %>
