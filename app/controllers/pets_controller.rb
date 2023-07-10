@@ -41,7 +41,8 @@ class PetsController < ApplicationController
     82 => 'UsukiGirl', 94 => 'Water', 83 => 'White', 89 => 'Woodland', 95 => 'Wraith',
     84 => 'Yellow', 85 => 'Zombie', 105 => 'Candy', 106 => 'Marble',
     107 => 'Steampunk', 108 => 'Toy', 109 => 'Origami', 110 => 'Oil Paint',
-    111 => 'New Color', 112 => 'New new color'
+    111 => 'Mosaic', 112 => 'Burlap', 113 => 'Valentine', 114 => 'New Colour',
+    115 => 'New Colour'
   };
 
   def new
