@@ -1,18 +1,26 @@
 <div class="text-center container-fluid">
-  <h1>Usuls.com</h1>
-  <p>&nbsp;</p>
   <div class="divider">
     <div class="center">
       <%= image_tag("alienaisha.gif") %>
     </div>
   </div>
-  <h3>List a pet!</h3>
+  <h1>Usuls.com</h1>
+  <h2 style="font-size: 12px;line-height:0px;">Neopets UFT/UFA database</h2>
+  <h6><%= link_to "#{@pets.count} Pets Listed", pets_path %></h6>
+
   <div class="well search-well">
+    <h3>Latest additions</h3>
+    <p style="font-family:inherit"><% Pet.last(6).each do |pet| %>
+      <%= link_to image_tag("http://pets.neopets.com/cpn/" + pet.name + "/1/1.png"), pet_path(pet), class: "" %>
+    <% end %></p>
+    <p style="font-family:inherit"><%= link_to "All Pets", pets_path, class: "btn btn-primary" %></p>
+  </div>
+
+  <div class="well search-well">
+    <h3>List a pet</h3>
     <%= render 'pets/form' %>
   </div>
-  <h3>Find and list neopets UFT/UFA!</h3>
-  <br>
-  <h3>Pets listed: <%= link_to @pets.count, pets_path %></h3>
+
   <div class="row">
     <div class="well search-well">
       <h3>Search by Color and/or Species</h3>
@@ -90,9 +98,8 @@
     <div class="well search-well">
       <h3>Search by HSD</h3>
       <%= form_tag pets_path, :method => :get do |f| %>
-        <%= text_field_tag :minbdsearch, params[:minbdsearch], placeholder: "Min HSD", class: 'form-control' %>
-        <%= text_field_tag :maxbdsearch, params[:maxbdsearch], placeholder: "Max HSD", class: 'form-control' %>
-        <br/>
+        <%= text_field_tag :minbdsearch, params[:minbdsearch], placeholder: "Min HSD", class: 'form-control' %><br/>
+        <%= text_field_tag :maxbdsearch, params[:maxbdsearch], placeholder: "Max HSD", class: 'form-control' %><br/>
         <%= submit_tag "Search!", :name => nil %>
       <% end %>
     </div>
