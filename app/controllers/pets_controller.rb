@@ -276,6 +276,9 @@ class PetsController < ApplicationController
   def set_pet_data(pet, data)
     pet.name = data.dig("custom_pet", "name")
     pet.owner = data.dig("custom_pet", "owner")
+    if pet.owner == 'baduser'
+      raise # Pet is frozen
+    end
     pet.uc = !!data.dig("custom_pet", "biology_by_zone", "46")
     pet.verified = !!data.dig("object_info_registry").to_h.dig("28531") # Mossy Rock
     pet.species = SPECIES_BY_ID[data["custom_pet"]["species_id"]]

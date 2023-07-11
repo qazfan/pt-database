@@ -10,7 +10,7 @@
 
   <div class="well search-well">
     <h3>Latest additions</h3>
-    <p style="font-family:inherit"><% Pet.last(6).each do |pet| %>
+    <p style="font-family:inherit;height:100px;overflow:hidden;"><% Pet.last(16).each do |pet| %>
       <%= link_to image_tag("http://pets.neopets.com/cpn/" + pet.name + "/1/1.png"), pet_path(pet), class: "" %>
     <% end %></p>
     <p style="font-family:inherit"><%= link_to "All Pets", pets_path, class: "btn btn-primary" %></p>
