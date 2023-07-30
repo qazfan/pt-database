@@ -57,6 +57,7 @@ gem 'will_paginate'
 
 # Use Obscenity to filter profanity
 gem 'obscenity'
+gem 'rack-attack'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

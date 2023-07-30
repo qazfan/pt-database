@@ -7,7 +7,6 @@
   <h1>Usuls.com</h1>
   <h2 style="font-size: 12px;line-height:0px;">Neopets UFT/UFA database</h2>
   <h6><%= link_to "#{@pets.count} Pets Listed", pets_path %></h6>
-
   <div class="well search-well">
     <h3>Latest additions</h3>
     <p style="font-family:inherit;height:100px;overflow:hidden;"><% Pet.last(16).each do |pet| %>

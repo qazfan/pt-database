@@ -13,7 +13,7 @@ class PetsController < ApplicationController
     37 => 'Ogrin', 38 => 'Peophin', 39 => 'Poogle', 40 => 'Pteri', 41 => 'Quiggle',
     42 => 'Ruki', 43 => 'Scorchio', 44 => 'Shoyru', 45 => 'Skeith', 46 => 'Techo',
     47 => 'Tonu', 48 => 'Tuskaninny', 49 => 'Uni', 50 => 'Usul', 55 => 'Vandagyre',
-    51 => 'Wocky', 52 => 'Xweetok', 53 => 'Yurble', 54 => 'Zafara', 55 => 'New Species'
+    51 => 'Wocky', 52 => 'Xweetok', 53 => 'Yurble', 54 => 'Zafara', 56 => 'New Species'
   }
 
   COLORS_BY_ID = {
@@ -278,6 +278,9 @@ class PetsController < ApplicationController
     pet.owner = data.dig("custom_pet", "owner")
     if pet.owner == 'baduser'
       raise # Pet is frozen
+    end
+    unless (pet.uft || pet.ufa)
+      pet.uft = true
     end
     pet.uc = !!data.dig("custom_pet", "biology_by_zone", "46")
     pet.verified = !!data.dig("object_info_registry").to_h.dig("28531") # Mossy Rock
