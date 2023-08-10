@@ -19,4 +19,5 @@ Rails.application.routes.draw do
 
   # An SVG masquerading as a PNG
   get '/images/:petname.png', to: 'counters#image', format: :svg
+  get '/kaleidoscopes/:id.gif', to:'kaleidoscopes#show', format: :svg
 end
